@@ -1,0 +1,36 @@
+{%- comment -%}
+   Render LangShop currency
+{%- endcomment -%}
+
+{%- assign defaultCurrency = shop.metafields.ls-settings.defaultCurrency -%}
+{%- if defaultCurrency.type == "json" -%}
+    {%- assign defaultCurrency = defaultCurrency.value -%}
+{%- endif -%}
+
+{%- assign targetCurrencies = shop.metafields.ls-settings.targetCurrencies -%}
+{%- if targetCurrencies.type == "json" -%}
+    {%- assign targetCurrencies = targetCurrencies.value -%}
+{%- endif -%}
+
+{%- assign currenciesCodes = targetCurrencies | map: 'code' -%}
+{%- assign currenciesCodes = defaultCurrency.code | split: "," | concat: currenciesCodes -%}
+{%- assign currentCurrencyCode = defaultCurrency.code -%}
+
+{%- if cart.currency.iso_code != '' -%}
+    {%- assign downcasedIso = cart.currency.iso_code | downcase -%}
+    {%- if downcasedIso != defaultCurrency.code -%}
+        {%- assign currentCurrencyCode = downcasedIso -%}
+    {%- endif -%}
+{%- endif -%}
+
+{%- if currenciesCodes.size > 1 -%}
+    {%- if cart.attributes.currency and currenciesCodes contains cart.attributes.currency -%}
+        {%- assign currentCurrencyCode = cart.attributes.currency -%}
+    {%- endif -%}
+
+    {%- if cart.attributes.currency and currenciesCodes contains checkout.attributes.currency -%}
+        {%- assign currentCurrencyCode = checkout.attributes.currency -%}
+    {%- endif -%}
+{%- endif -%}
+
+{{ currencyCode }}

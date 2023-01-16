@@ -1,0 +1,24 @@
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<style>
+  .gm-menu  .gm-item.gm-hide{
+    display:none !important;
+  }
+</style>
+<script>
+  var check = false;
+  var ga_interval = setInterval(checkApp, 100);
+
+  function checkApp() {
+    if (typeof GloboMenuConfig == 'object' && $('.gm-menu').length) {
+      check = true;
+      clearInterval(ga_interval);
+    }
+    if (check) {
+      $('.gm-menu .gm-item .fa-trash-o').each(function(){
+
+        $(this).closest('.gm-item').addClass('gm-hide');
+      })
+
+    }
+  }
+</script>

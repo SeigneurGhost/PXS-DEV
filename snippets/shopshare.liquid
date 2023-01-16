@@ -1,0 +1,14 @@
+<!-- snippets/shopshare.liquid -->
+{{ 'https://www.shopshare.io/src/v2/shopshare.css' | stylesheet_tag }}
+{{ 'https://www.shopshare.io/src/v2/shopshare.min.js' | script_tag }}
+{% assign ruler = false %}
+{% if template contains 'product' %}
+  {% assign ruler = product.id %}
+{% elsif template contains 'page' %}
+  {% assign ruler = page.id %}
+{% endif %}
+{% if ruler %}
+  <script>
+    new ShopShare({{ ruler }}).exec()
+  </script>
+{% endif %}
